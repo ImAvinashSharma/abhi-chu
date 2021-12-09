@@ -7,7 +7,7 @@ async function start() {
   container.style.position = "relative";
   document.body.append(container);
   const labeledFaceDescriptors = await loadLabeledImages();
-  const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.5);
+  const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.6);
   let image;
   let canvas;
   document.body.append("Loaded");
@@ -32,16 +32,18 @@ async function start() {
 }
 
 function loadLabeledImages() {
-  const labels = ["Black Widow", "Captain America", "Captain Marvel", "Hawkeye", "Jim Rhodes", "Thor", "Tony Stark", "Abhi", "Sudheer"];
+  const labels = ["19-5B1", "19-5B0", "19-5A8"];
   return Promise.all(
     labels.map(async label => {
       const descriptions = [];
       for (let i = 1; i <= 2; i++) {
+        //TODO change
         const imgUrl = `https://raw.githubusercontent.com/ImAvinashSharma/abhi-chu/main/labeled_images/${label}/${i}.jpg`;
         const img = await faceapi.fetchImage(imgUrl);
         const detections = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor();
         descriptions.push(detections.descriptor);
       }
+
       return new faceapi.LabeledFaceDescriptors(label, descriptions);
     })
   );
