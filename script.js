@@ -37,12 +37,11 @@ function loadLabeledImages() {
     labels.map(async label => {
       const descriptions = [];
       for (let i = 1; i <= 2; i++) {
-        https://github.com/ImAvinashSharma/abhi-chu/tree/main/labeled_images/Abhi
-        const img = await faceapi.fetchImage(`https://raw.githubusercontent.com/WebDevSimplified/Face-Recognition-JavaScript/master/labeled_images/${label}/${i}.jpg`);
+        const imgUrl = `https://raw.githubusercontent.com/ImAvinashSharma/abhi-chu/main/labeled_images/${label}/${i}.jpg`;
+        const img = await faceapi.fetchImage(imgUrl);
         const detections = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor();
         descriptions.push(detections.descriptor);
       }
-
       return new faceapi.LabeledFaceDescriptors(label, descriptions);
     })
   );
